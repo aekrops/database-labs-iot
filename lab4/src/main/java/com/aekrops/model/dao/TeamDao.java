@@ -17,7 +17,7 @@ public class TeamDao implements AbstractGenericDao<Team>{
 
     private static final String GET_ONE_QUERY = "SELECT * FROM " + TABLE + " WHERE id = ?;";
 
-    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (id, name, team_statistic_id, coach_id) VALUES (?, ?, ?, ?);";
+    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (name, team_statistic_id, coach_id) VALUES (?, ?, ?);";
 
     private static final String UPDATE_QUERY = "UPDATE " + TABLE + " SET name = ?, team_statistic_id = ?, coach_id = ? WHERE id = ?;";
 
@@ -72,10 +72,9 @@ public class TeamDao implements AbstractGenericDao<Team>{
     @Override
     public void create(Team team) throws SQLException {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(CREATE_QUERY)) {
-            statement.setInt(1, team.getId());
-            statement.setString(2, team.getName());
-            statement.setInt(3, team.getTeamStatisticId());
-            statement.setInt(4, team.getCoachId());
+            statement.setString(1, team.getName());
+            statement.setInt(2, team.getTeamStatisticId());
+            statement.setInt(3, team.getCoachId());
             statement.executeUpdate();
             System.out.println(statement);
         }

@@ -14,11 +14,9 @@ public class PlayerDao implements AbstractGenericDao<Player>{
     public static final String TABLE = "trostynskyi_db.player";
     private static final String GET_ALL_QUERY = "SELECT * FROM " + TABLE + ";";
 
-    // id = ? �� �� ����� ������ �� �� ����� ��� ��� ������ ������ ������� ���������� ����
     private static final String GET_ONE_QUERY = "SELECT * FROM " + TABLE + " WHERE id = ?;";
 
-    // (?) �� �� ����� ������ �� �� ����� �� ������� ����
-    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (id, team_id, name, age VALUES (?);";
+    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (team_id, name, age VALUES (?, ?, ?);";
 
     private static final String UPDATE_QUERY = "UPDATE " + TABLE + " SET team_id = ?, name = ?, age = ? WHERE id = ?;";
 
@@ -73,10 +71,9 @@ public class PlayerDao implements AbstractGenericDao<Player>{
     @Override
     public void create(Player player) throws SQLException {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(CREATE_QUERY)) {
-            statement.setInt(1, player.getId());
-            statement.setInt(2, player.getTeam_id());
-            statement.setString(3, player.getName());
-            statement.setInt(4, player.getAge());
+            statement.setInt(1, player.getTeam_id());
+            statement.setString(2, player.getName());
+            statement.setInt(3, player.getAge());
             statement.executeUpdate();
             System.out.println(statement);
         }

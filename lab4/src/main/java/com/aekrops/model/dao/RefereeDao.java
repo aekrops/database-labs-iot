@@ -16,7 +16,7 @@ public class RefereeDao implements AbstractGenericDao<Referee> {
 
     private static final String GET_ONE_QUERY = "SELECT * FROM " + TABLE + " WHERE id = ?;";
 
-    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (id, name, age VALUES (?);";
+    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (name, age VALUES (?, ?);";
     
     private static final String UPDATE_QUERY = "UPDATE " + TABLE + " SET name = ?, age = ? WHERE id = ?;";
 
@@ -68,9 +68,8 @@ public class RefereeDao implements AbstractGenericDao<Referee> {
     @Override
     public void create(Referee referee) throws SQLException {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(CREATE_QUERY)) {
-            statement.setInt(1, referee.getId());
-            statement.setString(2, referee.getName());
-            statement.setInt(3, referee.getAge());
+            statement.setString(1, referee.getName());
+            statement.setInt(2, referee.getAge());
             statement.executeUpdate();
             
             System.out.println(statement);

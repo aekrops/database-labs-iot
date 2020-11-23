@@ -17,7 +17,7 @@ public class CoachDao implements AbstractGenericDao<Coach> {
 
     private static final String GET_ONE_QUERY = "SELECT * FROM " + TABLE + " WHERE id = ?;";
 
-    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (id, name, age VALUES (?, ?);";
+    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (name, age) VALUES (?, ?);";
     
     private static final String UPDATE_QUERY = "UPDATE " + TABLE + " SET name = ?, age = ? WHERE id = ?;";
 
@@ -69,9 +69,8 @@ public class CoachDao implements AbstractGenericDao<Coach> {
     @Override
     public void create(Coach coach) throws SQLException {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(CREATE_QUERY)) {
-            statement.setInt(1, coach.getId());
-            statement.setString(2, coach.getName());
-            statement.setInt(3, coach.getAge());
+            statement.setString(1, coach.getName());
+            statement.setInt(2, coach.getAge());
             statement.executeUpdate();
             
             System.out.println(statement);

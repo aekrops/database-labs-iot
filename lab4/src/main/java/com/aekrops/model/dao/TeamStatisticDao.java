@@ -16,7 +16,7 @@ public class TeamStatisticDao implements AbstractGenericDao<TeamStatistic> {
 
     private static final String GET_ONE_QUERY = "SELECT * FROM " + TABLE + " WHERE id = ?;";
 
-    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (id, victories, percentage_hits_on_target VALUES (?);";
+    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (victories, percentage_hits_on_target VALUES (?, ?);";
 
     private static final String UPDATE_QUERY = "UPDATE " + TABLE + " SET victories = ?, percentage_hits_on_target = ? WHERE id = ?;";
 
@@ -68,9 +68,8 @@ public class TeamStatisticDao implements AbstractGenericDao<TeamStatistic> {
     @Override
     public void create(TeamStatistic teamStatistic) throws SQLException {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(CREATE_QUERY)) {
-            statement.setInt(1, teamStatistic.getId());
-            statement.setInt(2, teamStatistic.getVictories());
-            statement.setInt(3, teamStatistic.getPercentageHitsOnTarget());
+            statement.setInt(1, teamStatistic.getVictories());
+            statement.setInt(2, teamStatistic.getPercentageHitsOnTarget());
             statement.executeUpdate();
             System.out.println(statement);
         }

@@ -16,7 +16,7 @@ public class StadiumDao implements AbstractGenericDao<Stadium> {
 
     private static final String GET_ONE_QUERY = "SELECT * FROM " + TABLE + " WHERE id = ?;";
 
-    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (id, name, city, country VALUES (?);";
+    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (name, city, country VALUES (?, ?, ?);";
 
     private static final String UPDATE_QUERY = "UPDATE " + TABLE + " SET name = ?, city = ?, country = ? WHERE id = ?;";
 
@@ -70,10 +70,9 @@ public class StadiumDao implements AbstractGenericDao<Stadium> {
     @Override
     public void create(Stadium stadium) throws SQLException {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(CREATE_QUERY)) {
-            statement.setInt(1, stadium.getId());
-            statement.setString(2, stadium.getName());
-            statement.setString(3, stadium.getCity());
-            statement.setString(4, stadium.getCountry());
+            statement.setString(1, stadium.getName());
+            statement.setString(2, stadium.getCity());
+            statement.setString(3, stadium.getCountry());
             statement.executeUpdate();
             
             System.out.println(statement);
