@@ -83,7 +83,7 @@ public class View {
         menu.put("23", this::createTeam);
         menu.put("24", this::updateTeam);
         menu.put("25", this::deleteTeam);
-        // player 
+        // player
         menu.put("31", this::findAllPlayers);
         menu.put("32", this::findPlayer);
         menu.put("33", this::createPlayer);
