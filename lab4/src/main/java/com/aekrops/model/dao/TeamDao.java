@@ -38,7 +38,6 @@ public class TeamDao implements AbstractGenericDao<Team> {
                         resultSet.getInt("team_statistic_id"),
                         resultSet.getInt("coach_id")
                 );
-                // � ������ �� ����
                 teams.add(team);
             }
         } catch (Exception e) {
