@@ -20,7 +20,7 @@ public class MatchDao implements AbstractGenericDao<Match> {
             + "hosts_team, tournament, referee, stadium, match_date) VALUES (?, ?, ?, ?, ?, ?, ?);";
 
     private static final String UPDATE_QUERY = "UPDATE " + TABLE + " SET season = ?, guests_team = ?, hosts_team = ?, tournament = ?,"
-            +"referee = ?, stadium = ?, match_date = ? WHERE id = ?;";
+            + "referee = ?, stadium = ?, match_date = ? WHERE id = ?;";
 
     private static final String DELETE_QUERY = "DELETE FROM " + TABLE + " WHERE id = ?;";
 
@@ -92,8 +92,7 @@ public class MatchDao implements AbstractGenericDao<Match> {
 
             statement.executeUpdate();
             System.out.println(statement);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

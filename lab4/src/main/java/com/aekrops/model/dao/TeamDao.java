@@ -9,8 +9,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class TeamDao implements AbstractGenericDao<Team>{
-    
+public class TeamDao implements AbstractGenericDao<Team> {
+
     public static final String TABLE = "trostynskyi_db.team";
 
     private static final String GET_ALL_QUERY = "SELECT * FROM " + TABLE + ";";
@@ -22,11 +22,11 @@ public class TeamDao implements AbstractGenericDao<Team>{
     private static final String UPDATE_QUERY = "UPDATE " + TABLE + " SET name = ?, team_statistic_id = ?, coach_id = ? WHERE id = ?;";
 
     private static final String DELETE_QUERY = "DELETE FROM " + TABLE + " WHERE id = ?;";
-    
+
     @Override
     public List<Team> findAll() {
         List<Team> teams = new ArrayList<>();
-        
+
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(GET_ALL_QUERY)) {
             System.out.println(statement);
             ResultSet resultSet = statement.executeQuery();
@@ -37,7 +37,7 @@ public class TeamDao implements AbstractGenericDao<Team>{
                         resultSet.getString("name"),
                         resultSet.getInt("team_statistic_id"),
                         resultSet.getInt("coach_id")
-                        );
+                );
                 // � ������ �� ����
                 teams.add(team);
             }
@@ -77,12 +77,11 @@ public class TeamDao implements AbstractGenericDao<Team>{
             statement.setInt(3, team.getCoachId());
             statement.executeUpdate();
             System.out.println(statement);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public void update(Integer id, Team team) {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(UPDATE_QUERY)) {

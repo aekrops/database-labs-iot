@@ -6,41 +6,41 @@ import com.aekrops.model.annotation.Table;
 
 @Table(name = "match")
 public class Match {
-    
+
     @PrimaryKey
     @Column(name = "id")
     private Integer id;
-    
+
     @Column(name = "season")
     private String season;
-    
+
     @Column(name = "guests_team")
     private String guestsTeam;
-    
+
     @Column(name = "hosts_team")
     private String hostsTeam;
-    
+
     @Column(name = "tournament")
     private String tournament;
-    
+
     @Column(name = "referee")
     private String referee;
-    
+
     @Column(name = "stadium")
     private String stadium;
-    
+
     @Column(name = "match_date")
     private String matchDate;
-    
+
     public Match() {
-        
+
     }
-    
+
     public Match(String season, String guests_team, String hosts_team, String tournament, String referee, String stadium, String match_date) {
         this(-1, season, guests_team, hosts_team, tournament, referee, stadium, match_date);
     }
-    
-    public Match(Integer id,String season, String guestsTeam, String hostsTeam, String tournament, String referee, String stadium, String matchDate) {
+
+    public Match(Integer id, String season, String guestsTeam, String hostsTeam, String tournament, String referee, String stadium, String matchDate) {
         this.id = id;
         this.season = season;
         this.guestsTeam = guestsTeam;

@@ -10,24 +10,24 @@ public class Player {
     @PrimaryKey
     @Column(name = "id")
     private Integer id;
-    
+
     @Column(name = "team_id")
     private Integer team_id;
-    
+
     @Column(name = "name")
     private String name;
-    
+
     @Column(name = "age")
     private Integer age;
-    
+
     public Player() {
-        
+
     }
-    
+
     public Player(Integer team_id, String name, Integer age) {
         this(-1, team_id, name, age);
     }
-    
+
     public Player(Integer id, Integer team_id, String name, Integer age) {
         this.id = id;
         this.team_id = team_id;

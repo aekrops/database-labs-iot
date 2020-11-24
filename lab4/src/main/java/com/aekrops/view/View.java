@@ -1,7 +1,19 @@
 package com.aekrops.view;
 
-import com.aekrops.controller.*;
-import com.aekrops.model.entity.*;
+import com.aekrops.controller.CoachController;
+import com.aekrops.controller.MatchController;
+import com.aekrops.controller.PlayerController;
+import com.aekrops.controller.RefereeController;
+import com.aekrops.controller.StadiumController;
+import com.aekrops.controller.TeamController;
+import com.aekrops.controller.TeamStatisticController;
+import com.aekrops.model.entity.Coach;
+import com.aekrops.model.entity.Match;
+import com.aekrops.model.entity.Player;
+import com.aekrops.model.entity.Referee;
+import com.aekrops.model.entity.Stadium;
+import com.aekrops.model.entity.Team;
+import com.aekrops.model.entity.TeamStatistic;
 
 import java.nio.charset.StandardCharsets;
 import java.sql.SQLException;
@@ -11,8 +23,8 @@ import java.util.Scanner;
 
 public class View {
 
-    private final CoachController coachController= new CoachController();
-    private final MatchController matchController= new MatchController();
+    private final CoachController coachController = new CoachController();
+    private final MatchController matchController = new MatchController();
     private final PlayerController playerController = new PlayerController();
     private final RefereeController refereeController = new RefereeController();
     private final StadiumController stadiumController = new StadiumController();
@@ -23,7 +35,7 @@ public class View {
     private static final Scanner input = new Scanner(System.in, StandardCharsets.UTF_8);
 
 
-    public final void show() {
+    public final void show() throws SQLException {
         String keyMenu = "";
         while (!keyMenu.equals("Q")) {
             displayMenu();
@@ -31,7 +43,7 @@ public class View {
             keyMenu = input.nextLine().toUpperCase();
             try {
                 menu.get(keyMenu).print();
-            } catch (Exception e) {
+            } catch (Exception ignored) {
 
             }
         }
@@ -102,9 +114,9 @@ public class View {
         menu.put("74", this::updateTeamStatistic);
         menu.put("75", this::deleteTeamStatistic);
     }
-    
+
     /*  ----- Coach -----  */
-    
+
     private Coach getCoachDataByInputs() {
         System.out.println("Enter coach's id: ");
         Integer id = input.nextInt();
@@ -114,41 +126,41 @@ public class View {
         Integer age = input.nextInt();
         return new Coach(id, name, age);
     }
-    
+
     private void findAllCoaches() throws SQLException {
         System.out.println("\nCoaches:");
         System.out.println(coachController.findAll());
     }
-    
+
     private void findCoach() throws SQLException {
         System.out.println("\nEnter the ID for a coach to find");
         Integer id = input.nextInt();
         System.out.println(coachController.find(id));
     }
-    
+
     private void createCoach() throws SQLException {
         System.out.println("[Creating a coach] \n");
         Coach coachData = getCoachDataByInputs();
         coachController.create(coachData);
         System.out.println("A new coach was been inserted into the database!");
     }
-    
+
     private void updateCoach() throws SQLException {
         System.out.println("[Updating a coach] \n");
         Coach newCoachData = getCoachDataByInputs();
         coachController.update(newCoachData.getId(), newCoachData);
         System.out.println("The coach with id " + newCoachData.getId() + " was been updated!");
     }
-    
+
     private void deleteCoach() throws SQLException {
         System.out.println("[Deleting the coach] \n");
         Integer id = input.nextInt();
         coachController.delete(id);
         System.out.println("Coach with id " + id + " was been deleted!");
     }
-    
+
     /* ----- Match ----- */
-    
+
     private Match getMatchDataByInputs() {
         System.out.println("Enter match's id: ");
         Integer id = input.nextInt();
@@ -168,12 +180,12 @@ public class View {
         String date = input.next();
         return new Match(id, season, guestTeam, hostTeam, tournament, referee, stadium, date);
     }
-    
+
     private void findAllMatches() throws SQLException {
         System.out.println("\nMatches:");
         System.out.println(matchController.findAll());
     }
-    
+
     private void findMatch() throws SQLException {
         System.out.println("Enter match's id: ");
         Integer id = input.nextInt();
@@ -186,23 +198,23 @@ public class View {
         matchController.create(matchData);
         System.out.println("A new match was been inserted into the database!");
     }
-    
-    private void updateMatch() throws SQLException{
+
+    private void updateMatch() throws SQLException {
         System.out.println("[Updating a match]");
         Match newMatchData = getMatchDataByInputs();
         matchController.update(newMatchData.getId(), newMatchData);
         System.out.println("The match with id " + newMatchData.getId() + " was been updated!");
     }
-    
-    private void deleteMatch() throws SQLException{
+
+    private void deleteMatch() throws SQLException {
         System.out.println("[Deleting the match]");
         Integer id = input.nextInt();
-        matchController.delete(id);;
+        matchController.delete(id);
         System.out.println("Match with id " + id + " was been deleted!");
     }
-    
+
     /*  ----- Player -----  */
-    
+
     private Player getPlayerDataByInputs() {
         System.out.println("Enter player's id: ");
         Integer id = input.nextInt();
@@ -214,39 +226,39 @@ public class View {
         Integer age = input.nextInt();
         return new Player(id, teamId, name, age);
     }
-    
+
     private void findAllPlayers() {
         System.out.println("\nPlayers:");
         System.out.println(playerController.findAll());
     }
-    
+
     private void findPlayer() {
-       System.out.println("Enter player's id: ");
-       Integer id = input.nextInt();
-       System.out.println(playerController.find(id));
+        System.out.println("Enter player's id: ");
+        Integer id = input.nextInt();
+        System.out.println(playerController.find(id));
     }
-    
+
     private void createPlayer() throws SQLException {
         System.out.println("[Creating a player]");
         Player playerData = getPlayerDataByInputs();
         playerController.create(playerData);
         System.out.println("A new player was been inserted into the database!");
     }
-    
+
     private void updatePlayer() {
         System.out.println("[Updating a player]");
         Player newPlayerData = getPlayerDataByInputs();
         playerController.update(newPlayerData.getId(), newPlayerData);
         System.out.println("The player with id " + newPlayerData.getId() + " was been updated!");
     }
-    
+
     private void deletePlayer() {
         System.out.println("[Deleting the player]");
         Integer id = input.nextInt();
         playerController.delete(id);
         System.out.println("Player with id " + id + " was been deleted!");
     }
-    
+
     /*  ----- Referee -----  */
     private Referee getRefereeDataByInputs() {
         System.out.println("Enter referee's id: ");
@@ -257,42 +269,42 @@ public class View {
         Integer age = input.nextInt();
         return new Referee(id, name, age);
     }
-    
+
     private void findAllReferies() {
         System.out.println("\nReferies:");
         System.out.println(refereeController.findAll());
     }
-    
+
     private void findReferee() {
         System.out.println("Enter referee's id: ");
         Integer id = input.nextInt();
         System.out.println(refereeController.find(id));
     }
-    
+
     private void createReferee() throws SQLException {
         System.out.println("[Creating a referee]");
         Referee refereeData = getRefereeDataByInputs();
         refereeController.create(refereeData);
         System.out.println("A new referee was been inserted into the database!");
     }
-    
+
     private void updateReferee() {
         System.out.println("[Updating a referee]");
         Referee newRefereeData = getRefereeDataByInputs();
         refereeController.update(newRefereeData.getId(), newRefereeData);
         System.out.println("The referee with id " + newRefereeData.getId() + " was been updated!");
     }
-    
+
     private void deleteReferee() {
         System.out.println("[Deleting the referee]");
         Integer id = input.nextInt();
         refereeController.delete(id);
         System.out.println("Referee with id " + id + " was been deleted!");
     }
-    
-    
+
+
     /*  ----- Stadium -----  */
-    
+
     private Stadium getStadiumDataByInputs() {
         System.out.println("Enter stadium's id: ");
         Integer id = input.nextInt();
@@ -304,43 +316,43 @@ public class View {
         String country = input.next();
         return new Stadium(id, name, city, country);
     }
-    
+
     private void findAllStadiums() {
         System.out.println("\nStadiums:");
         System.out.println(stadiumController.findAll());
     }
-    
+
     private void findStadium() {
         System.out.println("Enter stadium's id: ");
         Integer id = input.nextInt();
         System.out.println(stadiumController.find(id));
     }
-    
+
     private void createStadium() throws SQLException {
         System.out.println("[Creating a stadium]");
         Stadium stadiumData = getStadiumDataByInputs();
         stadiumController.create(stadiumData);
         System.out.println("A new stadium was been inserted into the database!");
     }
-    
+
     private void updateStadium() {
         System.out.println("[Updating a stadium]");
         Stadium newStadiumData = getStadiumDataByInputs();
         stadiumController.update(newStadiumData.getId(), newStadiumData);
         System.out.println("The referee with id " + newStadiumData.getId() + " was been updated!");
     }
-    
+
     private void deleteStadium() {
         System.out.println("[Deleting the stadium]");
         Integer id = input.nextInt();
         stadiumController.delete(id);
         System.out.println("Referee with id " + id + " was been deleted!");
     }
-    
-    
-    
+
+
+
     /*  ----- Team -----  */
-    
+
     private Team getTeamDataByInputs() {
         System.out.println("Enter team's id: ");
         Integer id = input.nextInt();
@@ -352,41 +364,41 @@ public class View {
         Integer coach_id = input.nextInt();
         return new Team(id, name, statistic_id, coach_id);
     }
-    
+
     private void findAllTeams() {
         System.out.println("\nTeams:");
         System.out.println(teamController.findAll());
     }
-    
+
     private void findTeam() {
         System.out.println("Enter team's id: ");
         Integer id = input.nextInt();
         System.out.println(teamController.find(id));
     }
-    
+
     private void createTeam() throws SQLException {
         System.out.println("[Creating a team]");
         Team teamData = getTeamDataByInputs();
         teamController.create(teamData);
         System.out.println("A new team was been inserted into the database!");
     }
-    
+
     private void updateTeam() {
         System.out.println("[Updating a team]");
         Team newTeamData = getTeamDataByInputs();
         teamController.update(newTeamData.getId(), newTeamData);
         System.out.println("The team with id " + newTeamData.getId() + " was been updated!");
     }
-    
+
     private void deleteTeam() {
         System.out.println("[Deleting the team]");
         Integer id = input.nextInt();
         teamController.delete(id);
         System.out.println("Team with id " + id + " was been deleted!");
     }
-    
+
     /*  ----- TeamStatistic -----  */
-    
+
     private TeamStatistic getTeamStatisticDataByInputs() {
         System.out.println("Enter team's statistic id: ");
         Integer id = input.nextInt();
@@ -396,32 +408,32 @@ public class View {
         Integer percentage_hits_on_target = input.nextInt();
         return new TeamStatistic(id, victories, percentage_hits_on_target);
     }
-    
+
     private void findAllTeamStatistics() {
         System.out.println("\nTeam's statictic:");
         System.out.println(teamStatisticController.findAll());
     }
-    
+
     private void findTeamStatistic() {
         System.out.println("Enter team's statistic id: ");
         Integer id = input.nextInt();
         System.out.println(teamStatisticController.find(id));
     }
-    
+
     private void createTeamStatistic() throws SQLException {
         System.out.println("[Creating a team's statistic]");
         TeamStatistic teamStatisticData = getTeamStatisticDataByInputs();
         teamStatisticController.create(teamStatisticData);
         System.out.println("A new team was been inserted into the database!");
     }
-    
+
     private void updateTeamStatistic() {
         System.out.println("[Updating a team statistic]");
         TeamStatistic newTeamStatisticData = getTeamStatisticDataByInputs();
         teamStatisticController.update(newTeamStatisticData.getId(), newTeamStatisticData);
         System.out.println("The team with id " + newTeamStatisticData.getId() + " was been updated!");
     }
-    
+
     private void deleteTeamStatistic() {
         System.out.println("[Deleting the team statistic]");
         Integer id = input.nextInt();

@@ -10,20 +10,20 @@ public class Team {
     @PrimaryKey
     @Column(name = "id")
     private Integer id;
-    
+
     @Column(name = "name")
     private String name;
-    
+
     @Column(name = "team_statistic_id")
     private Integer teamStatisticId;
-    
+
     @Column(name = "coach_id")
     private Integer coachId;
-    
+
     public Team() {
-        
+
     }
-    
+
     public Team(String name, Integer teamStatisticId, Integer coachId) {
         this(-1, name, teamStatisticId, coachId);
     }

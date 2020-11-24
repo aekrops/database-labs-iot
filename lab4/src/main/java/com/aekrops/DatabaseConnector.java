@@ -4,18 +4,18 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 
 public class DatabaseConnector {
-    
+
     private static final String JDBC_DRIVER = "com.mysql.cj.jdbc.Driver";
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/trostynskyi_db?serverTimezone=Europe/Kiev";
     private static final String USERNAME = "root";
     private static final String PASSWORD = System.getenv("PASSWORD");
-    
+
     private static Connection DATABASE_CONNECTION;
-    
+
     public DatabaseConnector() {
-        
+
     }
-    
+
     public static Connection getConnection() {
         try {
             Class.forName(JDBC_DRIVER);

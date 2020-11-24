@@ -9,8 +9,8 @@ import java.util.List;
 import com.aekrops.DatabaseConnector;
 import com.aekrops.model.entity.Player;
 
-public class PlayerDao implements AbstractGenericDao<Player>{
-    
+public class PlayerDao implements AbstractGenericDao<Player> {
+
     public static final String TABLE = "trostynskyi_db.player";
     private static final String GET_ALL_QUERY = "SELECT * FROM " + TABLE + ";";
 
@@ -21,11 +21,11 @@ public class PlayerDao implements AbstractGenericDao<Player>{
     private static final String UPDATE_QUERY = "UPDATE " + TABLE + " SET team_id = ?, name = ?, age = ? WHERE id = ?;";
 
     private static final String DELETE_QUERY = "DELETE FROM " + TABLE + " WHERE id = ?;";
-    
+
     @Override
     public List<Player> findAll() {
         List<Player> players = new ArrayList<>();
-        
+
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(GET_ALL_QUERY)) {
             System.out.println(statement);
             ResultSet resultSet = statement.executeQuery();
@@ -36,7 +36,7 @@ public class PlayerDao implements AbstractGenericDao<Player>{
                         resultSet.getInt("team_id"),
                         resultSet.getString("name"),
                         resultSet.getInt("age")
-                        );
+                );
                 // � ������ �� ����
                 players.add(player);
             }
@@ -46,7 +46,7 @@ public class PlayerDao implements AbstractGenericDao<Player>{
         return players;
     }
 
-    
+
     @Override
     public Player find(Integer id) {
         Player player = null;
@@ -76,12 +76,11 @@ public class PlayerDao implements AbstractGenericDao<Player>{
             statement.setInt(3, player.getAge());
             statement.executeUpdate();
             System.out.println(statement);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public void update(Integer id, Player player) {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(UPDATE_QUERY)) {
