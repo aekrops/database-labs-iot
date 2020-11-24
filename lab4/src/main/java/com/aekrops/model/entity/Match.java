@@ -1,35 +1,21 @@
 package com.aekrops.model.entity;
 
-import com.aekrops.model.annotation.Column;
-import com.aekrops.model.annotation.PrimaryKey;
-import com.aekrops.model.annotation.Table;
-
-@Table(name = "match")
 public class Match {
 
-    @PrimaryKey
-    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "season")
     private String season;
 
-    @Column(name = "guests_team")
     private String guestsTeam;
 
-    @Column(name = "hosts_team")
     private String hostsTeam;
 
-    @Column(name = "tournament")
     private String tournament;
 
-    @Column(name = "referee")
     private String referee;
 
-    @Column(name = "stadium")
     private String stadium;
 
-    @Column(name = "match_date")
     private String matchDate;
 
     public Match() {

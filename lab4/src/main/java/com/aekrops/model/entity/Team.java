@@ -1,23 +1,13 @@
 package com.aekrops.model.entity;
 
-import com.aekrops.model.annotation.Column;
-import com.aekrops.model.annotation.PrimaryKey;
-import com.aekrops.model.annotation.Table;
-
-@Table(name = "team")
 public class Team {
 
-    @PrimaryKey
-    @Column(name = "id")
     private Integer id;
 
-    @Column(name = "name")
     private String name;
 
-    @Column(name = "team_statistic_id")
     private Integer teamStatisticId;
 
-    @Column(name = "coach_id")
     private Integer coachId;
 
     public Team() {
