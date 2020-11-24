@@ -1,13 +1,13 @@
 package com.aekrops.model.dao;
 
+import com.aekrops.DatabaseConnector;
+import com.aekrops.model.entity.Player;
+
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
-
-import com.aekrops.DatabaseConnector;
-import com.aekrops.model.entity.Player;
 
 public class PlayerDao implements AbstractGenericDao<Player> {
 
@@ -16,7 +16,7 @@ public class PlayerDao implements AbstractGenericDao<Player> {
 
     private static final String GET_ONE_QUERY = "SELECT * FROM " + TABLE + " WHERE id = ?;";
 
-    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (team_id, name, age VALUES (?, ?, ?);";
+    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (team_id, name, age) VALUES (?, ?, ?);";
 
     private static final String UPDATE_QUERY = "UPDATE " + TABLE + " SET team_id = ?, name = ?, age = ? WHERE id = ?;";
 
