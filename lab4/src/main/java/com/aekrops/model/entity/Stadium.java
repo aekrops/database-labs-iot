@@ -1,29 +1,19 @@
 package com.aekrops.model.entity;
 
-import com.aekrops.model.annotation.Column;
-import com.aekrops.model.annotation.PrimaryKey;
-import com.aekrops.model.annotation.Table;
-
-@Table(name = "stadium")
 public class Stadium {
 
-    @PrimaryKey
-    @Column(name = "id")
     private Integer id;
-    
-    @Column(name = "name")
+
     private String name;
-    
-    @Column(name = "city")
+
     private String city;
-    
-    @Column(name = "country")
+
     private String country;
-    
+
     public Stadium() {
-        
+
     }
-    
+
     public Stadium(String name, String city, String country) {
         this(-1, name, city, country);
     }

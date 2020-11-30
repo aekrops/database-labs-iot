@@ -16,16 +16,16 @@ public class StadiumDao implements AbstractGenericDao<Stadium> {
 
     private static final String GET_ONE_QUERY = "SELECT * FROM " + TABLE + " WHERE id = ?;";
 
-    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (id, name, city, country VALUES (?);";
+    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (name, city, country VALUES (?, ?, ?);";
 
     private static final String UPDATE_QUERY = "UPDATE " + TABLE + " SET name = ?, city = ?, country = ? WHERE id = ?;";
 
     private static final String DELETE_QUERY = "DELETE FROM " + TABLE + " WHERE id = ?;";
-    
+
     @Override
     public List<Stadium> findAll() {
         List<Stadium> stadiums = new ArrayList<>();
-        
+
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(GET_ALL_QUERY)) {
             System.out.println(statement);
             ResultSet resultSet = statement.executeQuery();
@@ -36,7 +36,7 @@ public class StadiumDao implements AbstractGenericDao<Stadium> {
                         resultSet.getString("name"),
                         resultSet.getString("city"),
                         resultSet.getString("country")
-                        );
+                );
                 stadiums.add(teamStatistic);
             }
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class StadiumDao implements AbstractGenericDao<Stadium> {
         return stadiums;
     }
 
-    
+
     @Override
     public Stadium find(Integer id) {
         Stadium stadium = null;
@@ -70,19 +70,17 @@ public class StadiumDao implements AbstractGenericDao<Stadium> {
     @Override
     public void create(Stadium stadium) throws SQLException {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(CREATE_QUERY)) {
-            statement.setInt(1, stadium.getId());
-            statement.setString(2, stadium.getName());
-            statement.setString(3, stadium.getCity());
-            statement.setString(4, stadium.getCountry());
+            statement.setString(1, stadium.getName());
+            statement.setString(2, stadium.getCity());
+            statement.setString(3, stadium.getCountry());
             statement.executeUpdate();
-            
+
             System.out.println(statement);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public void update(Integer id, Stadium stadium) {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(UPDATE_QUERY)) {

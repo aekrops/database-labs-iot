@@ -16,16 +16,16 @@ public class RefereeDao implements AbstractGenericDao<Referee> {
 
     private static final String GET_ONE_QUERY = "SELECT * FROM " + TABLE + " WHERE id = ?;";
 
-    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (id, name, age VALUES (?);";
-    
+    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (name, age VALUES (?, ?);";
+
     private static final String UPDATE_QUERY = "UPDATE " + TABLE + " SET name = ?, age = ? WHERE id = ?;";
 
     private static final String DELETE_QUERY = "DELETE FROM " + TABLE + " WHERE id = ?;";
-    
+
     @Override
     public List<Referee> findAll() {
         List<Referee> referies = new ArrayList<>();
-        
+
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(GET_ALL_QUERY)) {
             System.out.println(statement);
             ResultSet resultSet = statement.executeQuery();
@@ -35,7 +35,7 @@ public class RefereeDao implements AbstractGenericDao<Referee> {
                         resultSet.getInt("id"),
                         resultSet.getString("name"),
                         resultSet.getInt("age")
-                        );
+                );
                 referies.add(referee);
             }
         } catch (Exception e) {
@@ -44,7 +44,7 @@ public class RefereeDao implements AbstractGenericDao<Referee> {
         return referies;
     }
 
-    
+
     @Override
     public Referee find(Integer id) {
         Referee referee = null;
@@ -68,18 +68,16 @@ public class RefereeDao implements AbstractGenericDao<Referee> {
     @Override
     public void create(Referee referee) throws SQLException {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(CREATE_QUERY)) {
-            statement.setInt(1, referee.getId());
-            statement.setString(2, referee.getName());
-            statement.setInt(3, referee.getAge());
+            statement.setString(1, referee.getName());
+            statement.setInt(2, referee.getAge());
             statement.executeUpdate();
-            
+
             System.out.println(statement);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public void update(Integer id, Referee referee) {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(UPDATE_QUERY)) {

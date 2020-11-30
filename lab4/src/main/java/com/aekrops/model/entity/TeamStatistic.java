@@ -1,26 +1,17 @@
 package com.aekrops.model.entity;
 
-import com.aekrops.model.annotation.Column;
-import com.aekrops.model.annotation.PrimaryKey;
-import com.aekrops.model.annotation.Table;
-
-@Table(name = "team_statistic")
 public class TeamStatistic {
 
-    @PrimaryKey
-    @Column(name = "id")
     private Integer id;
-    
-    @Column(name = "victories")
+
     private Integer victories;
-    
-    @Column(name = "percentage_hits_on_target")
+
     private Integer percentageHitsOnTarget;
-    
+
     public TeamStatistic() {
-        
+
     }
-    
+
     public TeamStatistic(Integer victories, Integer percentageHitsOnTarget) {
         this(-1, victories, percentageHitsOnTarget);
     }

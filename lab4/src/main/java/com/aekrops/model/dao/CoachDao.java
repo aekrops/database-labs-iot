@@ -12,21 +12,21 @@ import java.util.List;
 public class CoachDao implements AbstractGenericDao<Coach> {
 
     public static final String TABLE = "trostynskyi_db.coach";
-    
+
     private static final String GET_ALL_QUERY = "SELECT * FROM " + TABLE + ";";
 
     private static final String GET_ONE_QUERY = "SELECT * FROM " + TABLE + " WHERE id = ?;";
 
-    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (id, name, age VALUES (?, ?);";
-    
+    private static final String CREATE_QUERY = "INSERT INTO " + TABLE + " (name, age) VALUES (?, ?);";
+
     private static final String UPDATE_QUERY = "UPDATE " + TABLE + " SET name = ?, age = ? WHERE id = ?;";
 
     private static final String DELETE_QUERY = "DELETE FROM " + TABLE + " WHERE id = ?;";
-    
+
     @Override
     public List<Coach> findAll() {
         List<Coach> coaches = new ArrayList<>();
-        
+
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(GET_ALL_QUERY)) {
             System.out.println(statement);
             ResultSet resultSet = statement.executeQuery();
@@ -36,7 +36,7 @@ public class CoachDao implements AbstractGenericDao<Coach> {
                         resultSet.getInt("id"),
                         resultSet.getString("name"),
                         resultSet.getInt("age")
-                        );
+                );
                 coaches.add(coach);
             }
         } catch (Exception e) {
@@ -45,7 +45,7 @@ public class CoachDao implements AbstractGenericDao<Coach> {
         return coaches;
     }
 
-    
+
     @Override
     public Coach find(Integer id) {
         Coach coach = null;
@@ -69,18 +69,16 @@ public class CoachDao implements AbstractGenericDao<Coach> {
     @Override
     public void create(Coach coach) throws SQLException {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(CREATE_QUERY)) {
-            statement.setInt(1, coach.getId());
-            statement.setString(2, coach.getName());
-            statement.setInt(3, coach.getAge());
+            statement.setString(1, coach.getName());
+            statement.setInt(2, coach.getAge());
             statement.executeUpdate();
-            
+
             System.out.println(statement);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }
-    
+
     @Override
     public void update(Integer id, Coach stadium) {
         try (PreparedStatement statement = DatabaseConnector.getConnection().prepareStatement(UPDATE_QUERY)) {
