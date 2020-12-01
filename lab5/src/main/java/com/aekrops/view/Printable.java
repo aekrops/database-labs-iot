@@ -6,5 +6,5 @@ import java.text.ParseException;
 @FunctionalInterface
 public interface Printable {
 
-    void print() throws SQLException, ParseException;
+  void print() throws SQLException, ParseException;
 }

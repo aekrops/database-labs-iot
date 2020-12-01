@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MatchDao implements AbstractGenericDao<Game> {
+public class GameDao implements AbstractGenericDao<Game> {
 
   private final SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
