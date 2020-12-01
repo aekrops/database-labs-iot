@@ -57,7 +57,7 @@ public class TeamStatistic {
 
   @Override
   public String toString() {
-    return "\n---------------\nid= " + id + ", \nvictories= " + victories +
-        ", \npercentageHitsOnTarget= " + percentageHitsOnTarget;
+    return "\n\n[ id= " + id + ", \nvictories= " + victories +
+        ", \npercentageHitsOnTarget= " + percentageHitsOnTarget + " ]";
   }
 }

@@ -221,11 +221,12 @@ public class View {
     Integer id = input.nextInt();
     System.out.println("Enter team's id: ");
     Integer teamId = input.nextInt();
+    Team team = teamController.find(teamId);
     System.out.println("Enter player's name: ");
     String name = input.next();
     System.out.println("Enter player's age: ");
     Integer age = input.nextInt();
-    return new Player(id, teamId, name, age);
+    return new Player(id, team, name, age);
   }
 
   private void findAllPlayers() {
@@ -361,9 +362,11 @@ public class View {
     String name = input.next();
     System.out.println("Enter team's statistic id: ");
     Integer statistic_id = input.nextInt();
+    TeamStatistic statistic = teamStatisticController.find(statistic_id);
     System.out.println("Enter team's coach id: ");
     Integer coach_id = input.nextInt();
-    return new Team(id, name, statistic_id, coach_id);
+    Coach coach = coachController.find(coach_id);
+    return new Team(id, name, statistic, coach);
   }
 
   private void findAllTeams() {

@@ -119,8 +119,9 @@ public class Game {
 
   @Override
   public String toString() {
-    return "\n---------------\nid= " + id + ", \nseason= " + season + ", \nguestsTeam= " +
+    return "\n\n[ id= " + id + ", \nseason= " + season + ", \nguestsTeam= " +
         guestsTeam + ", \nhostsTeam= " + hostsTeam + ", \ntournament= " + tournament +
-        ", \nreferee= " + referee + ", \nstadium= " + stadium + ", \nmatchDate= " + matchDate;
+        ", \nreferee= " + referee + ", \nstadium= " + stadium + ", \nmatchDate= " +
+        matchDate + " ]";
   }
 }
