@@ -14,25 +14,27 @@ public class Team {
   @Column(name = "name")
   private String name;
 
-  @Column(name = "team_statistic_id")
-  private Integer teamStatisticId;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "team_statistic_id", referencedColumnName = "id")
+  private TeamStatistic teamStatistic;
 
-  @Column(name = "coach_id")
-  private Integer coachId;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "coach_id", referencedColumnName = "id")
+  private Coach coach;
 
   public Team() {
 
   }
 
-  public Team(String name, Integer teamStatisticId, Integer coachId) {
-    this(-1, name, teamStatisticId, coachId);
+  public Team(String name, TeamStatistic teamStatistic, Coach coach) {
+    this(-1, name, teamStatistic, coach);
   }
 
-  public Team(Integer id, String name, Integer teamStatisticId, Integer coachId) {
+  public Team(Integer id, String name, TeamStatistic teamStatistic, Coach coach) {
     this.id = id;
     this.name = name;
-    this.teamStatisticId = teamStatisticId;
-    this.coachId = coachId;
+    this.teamStatistic = teamStatistic;
+    this.coach = coach;
   }
 
   public Integer getId() {
@@ -51,26 +53,27 @@ public class Team {
     this.name = name;
   }
 
-  public Integer getTeamStatisticId() {
-    return teamStatisticId;
+  public TeamStatistic getTeamStatistic() {
+    return teamStatistic;
   }
 
-  public void setTeamStatisticId(Integer teamStatisticId) {
-    this.teamStatisticId = teamStatisticId;
+  public void setTeamStatistic(TeamStatistic teamStatistic) {
+    this.teamStatistic = teamStatistic;
   }
 
-  public Integer getCoachId() {
-    return coachId;
+  public Coach getCoach() {
+    return coach;
   }
 
-  public void setCoachId(Integer coachId) {
-    this.coachId = coachId;
+  public void setCoach(Coach coach) {
+    this.coach = coach;
   }
 
   @Override
   public String toString() {
-    return "\n---------------\nid= " + id + ", \nname= " + name + ", \nteam_statistic_id= " + teamStatisticId +
-        ", \ncoach_id= " + coachId;
+    return "\n\n[ id= " + id + ", \nname= " + name +
+        ", \nteam_statistic= " + teamStatistic +
+        ", \ncoach_id= " + coach + " ]";
   }
 }
 

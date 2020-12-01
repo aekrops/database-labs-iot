@@ -12,8 +12,9 @@ public class Player {
   @Column(name = "id")
   private Integer id;
 
-  @Column(name = "team_id")
-  private Integer team_id;
+  @OneToOne(cascade = CascadeType.ALL)
+  @JoinColumn(name = "team_id", referencedColumnName = "id")
+  private Team team;
 
   @Column(name = "name")
   private String name;
@@ -25,13 +26,13 @@ public class Player {
 
   }
 
-  public Player(Integer team_id, String name, Integer age) {
-    this(-1, team_id, name, age);
+  public Player(Team team, String name, Integer age) {
+    this(-1, team, name, age);
   }
 
-  public Player(Integer id, Integer team_id, String name, Integer age) {
+  public Player(Integer id, Team team, String name, Integer age) {
     this.id = id;
-    this.team_id = team_id;
+    this.team = team;
     this.name = name;
     this.age = age;
   }
@@ -44,12 +45,12 @@ public class Player {
     this.id = id;
   }
 
-  public Integer getTeam_id() {
-    return team_id;
+  public Team getTeam() {
+    return team;
   }
 
-  public void setTeam_id(Integer team_id) {
-    this.team_id = team_id;
+  public void setTeam(Team team) {
+    this.team = team;
   }
 
   public String getName() {
@@ -70,6 +71,7 @@ public class Player {
 
   @Override
   public String toString() {
-    return "\n---------------\nid= " + id + ", \nteam_id= " + team_id + ", \nname= " + name + ", \nage= " + age;
+    return "\n\nid= " + id + ", \nteam= " + team +
+        ", \nname= " + name + ", \nage= " + age;
   }
 }

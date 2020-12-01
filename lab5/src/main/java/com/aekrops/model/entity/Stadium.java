@@ -69,6 +69,7 @@ public class Stadium {
 
   @Override
   public String toString() {
-    return "\n---------------\nid= " + id + ", \nname= " + name + ", \ncity= " + city + ", \ncountry= " + country;
+    return "\n\n[ id= " + id + ", \nname= " + name +
+        ", \ncity= " + city + ", \ncountry= " + country + " ]";
   }
 }

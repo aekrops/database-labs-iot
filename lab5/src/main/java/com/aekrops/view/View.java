@@ -36,7 +36,7 @@ public class View {
   private static final Scanner input = new Scanner(System.in, StandardCharsets.UTF_8);
 
 
-  public final void show() throws SQLException {
+  public final void show() {
     String keyMenu = "";
     while (!keyMenu.equals("Q")) {
       displayMenu();
@@ -128,12 +128,12 @@ public class View {
     return new Coach(id, name, age);
   }
 
-  private void findAllCoaches() throws SQLException {
+  private void findAllCoaches() {
     System.out.println("\nCoaches:");
     System.out.println(coachController.findAll());
   }
 
-  private void findCoach() throws SQLException {
+  private void findCoach() {
     System.out.println("\nEnter the ID for a coach to find");
     Integer id = input.nextInt();
     System.out.println(coachController.find(id));
@@ -153,7 +153,7 @@ public class View {
     System.out.println("The coach with id " + newCoachData.getId() + " was been updated!");
   }
 
-  private void deleteCoach() throws SQLException {
+  private void deleteCoach() {
     System.out.println("[Deleting the coach] \n");
     Integer id = input.nextInt();
     coachController.delete(id);
@@ -182,12 +182,12 @@ public class View {
     return new Game(id, season, guestTeam, hostTeam, tournament, referee, stadium, date);
   }
 
-  private void findAllMatches() throws SQLException {
+  private void findAllMatches() {
     System.out.println("\nMatches:");
     System.out.println(gameController.findAll());
   }
 
-  private void findMatch() throws SQLException {
+  private void findMatch() {
     System.out.println("Enter match's id: ");
     Integer id = input.nextInt();
     System.out.println(gameController.find(id));
@@ -200,14 +200,14 @@ public class View {
     System.out.println("A new match was been inserted into the database!");
   }
 
-  private void updateMatch() throws SQLException {
+  private void updateMatch() {
     System.out.println("[Updating a match]");
     Game newGameData = getMatchDataByInputs();
     gameController.update(newGameData.getId(), newGameData);
     System.out.println("The match with id " + newGameData.getId() + " was been updated!");
   }
 
-  private void deleteMatch() throws SQLException {
+  private void deleteMatch() {
     System.out.println("[Deleting the match]");
     Integer id = input.nextInt();
     gameController.delete(id);
@@ -221,11 +221,12 @@ public class View {
     Integer id = input.nextInt();
     System.out.println("Enter team's id: ");
     Integer teamId = input.nextInt();
+    Team team = teamController.find(teamId);
     System.out.println("Enter player's name: ");
     String name = input.next();
     System.out.println("Enter player's age: ");
     Integer age = input.nextInt();
-    return new Player(id, teamId, name, age);
+    return new Player(id, team, name, age);
   }
 
   private void findAllPlayers() {
@@ -361,9 +362,11 @@ public class View {
     String name = input.next();
     System.out.println("Enter team's statistic id: ");
     Integer statistic_id = input.nextInt();
+    TeamStatistic statistic = teamStatisticController.find(statistic_id);
     System.out.println("Enter team's coach id: ");
     Integer coach_id = input.nextInt();
-    return new Team(id, name, statistic_id, coach_id);
+    Coach coach = coachController.find(coach_id);
+    return new Team(id, name, statistic, coach);
   }
 
   private void findAllTeams() {

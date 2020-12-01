@@ -57,7 +57,7 @@ public class Coach {
 
   @Override
   public String toString() {
-    return "\n---------------\nid=" + id +
-        ",\nname=" + name + ",\nage=" + age;
+    return "\n\n[ id=" + id +
+        ",\nname=" + name + ",\nage=" + age + " ]";
   }
 }
