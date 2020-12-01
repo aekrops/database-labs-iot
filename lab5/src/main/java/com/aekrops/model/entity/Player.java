@@ -70,6 +70,7 @@ public class Player {
 
   @Override
   public String toString() {
-    return "\n---------------\nid= " + id + ", \nteam_id= " + team_id + ", \nname= " + name + ", \nage= " + age;
+    return "\n---------------\nid= " + id + ", \nteam_id= " + team_id +
+        ", \nname= " + name + ", \nage= " + age;
   }
 }

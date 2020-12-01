@@ -69,7 +69,8 @@ public class Team {
 
   @Override
   public String toString() {
-    return "\n---------------\nid= " + id + ", \nname= " + name + ", \nteam_statistic_id= " + teamStatisticId +
+    return "\n---------------\nid= " + id + ", \nname= " + name +
+        ", \nteam_statistic_id= " + teamStatisticId +
         ", \ncoach_id= " + coachId;
   }
 }

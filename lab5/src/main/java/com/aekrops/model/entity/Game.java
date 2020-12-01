@@ -36,11 +36,13 @@ public class Game {
 
   }
 
-  public Game(String season, String guests_team, String hosts_team, String tournament, String referee, String stadium, String match_date) {
+  public Game(String season, String guests_team, String hosts_team, String tournament,
+              String referee, String stadium, String match_date) {
     this(-1, season, guests_team, hosts_team, tournament, referee, stadium, match_date);
   }
 
-  public Game(Integer id, String season, String guestsTeam, String hostsTeam, String tournament, String referee, String stadium, String matchDate) {
+  public Game(Integer id, String season, String guestsTeam, String hostsTeam, String tournament,
+              String referee, String stadium, String matchDate) {
     this.id = id;
     this.season = season;
     this.guestsTeam = guestsTeam;
@@ -117,7 +119,8 @@ public class Game {
 
   @Override
   public String toString() {
-    return "\n---------------\nid= " + id + ", \nseason= " + season + ", \nguestsTeam= " + guestsTeam + ", \nhostsTeam= " + hostsTeam
-        + ", \ntournament= " + tournament + ", \nreferee= " + referee + ", \nstadium= " + stadium + ", \nmatchDate= " + matchDate;
+    return "\n---------------\nid= " + id + ", \nseason= " + season + ", \nguestsTeam= " +
+        guestsTeam + ", \nhostsTeam= " + hostsTeam + ", \ntournament= " + tournament +
+        ", \nreferee= " + referee + ", \nstadium= " + stadium + ", \nmatchDate= " + matchDate;
   }
 }
