@@ -1,16 +1,16 @@
 package com.aekrops.controller;
 
-import com.aekrops.model.dao.MatchDao;
+import com.aekrops.model.dao.GameDao;
 import com.aekrops.model.entity.Game;
 
 import java.sql.SQLException;
 import java.util.List;
 
-public class MatchController implements AbstractGenericController<Game> {
+public class GameController implements AbstractGenericController<Game> {
 
-  private static final MatchDao dao = new MatchDao();
+  private static final GameDao dao = new GameDao();
 
-  public MatchController() {
+  public GameController() {
 
   }
 
