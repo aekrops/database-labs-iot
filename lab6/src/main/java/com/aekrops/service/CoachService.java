@@ -40,9 +40,12 @@ public class CoachService implements AbstractService<Coach, Integer> {
   }
 
   @Override
-  public void deleteById(Integer id) {
+  public Boolean deleteById(Integer id) {
     if (coachRepository.findById(id).isPresent()) {
       coachRepository.deleteById(id);
+      return true;
+    } else {
+      return false;
     }
   }
 }

@@ -40,9 +40,12 @@ public class RefereeService implements AbstractService<Referee, Integer> {
   }
 
   @Override
-  public void deleteById(Integer id) {
+  public Boolean deleteById(Integer id) {
     if (refereeRepository.findById(id).isPresent()) {
       refereeRepository.deleteById(id);
+      return true;
+    } else {
+      return false;
     }
   }
 }

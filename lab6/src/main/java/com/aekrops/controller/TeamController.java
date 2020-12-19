@@ -39,8 +39,10 @@ public class TeamController {
 
   @RequestMapping(method = RequestMethod.GET, value = "/{id}")
   public ResponseEntity<TeamDto> getById(@PathVariable Integer id) {
-    Team team = teamService.getById(id);
-    if (team != null) {
+    Team team;
+    try {
+      team = teamService.getById(id);
+
       TeamDto teamDto = new TeamDto(
           team.getId(),
           team.getName(),
@@ -48,7 +50,7 @@ public class TeamController {
           team.getCoach()
       );
       return new ResponseEntity<>(teamDto, HttpStatus.OK);
-    } else {
+    } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
@@ -62,27 +64,32 @@ public class TeamController {
   @RequestMapping(method = RequestMethod.PUT, value = "/{id}",
       consumes = {MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<TeamDto> update(@PathVariable Integer id, @RequestBody Team team) {
-    Team teamOld = teamService.getById(id);
-    if (teamOld != null) {
-      teamService.update(id, team);
-      TeamDto teamOldDto = new TeamDto(
-          team.getId(),
-          team.getName(),
-          team.getTeamStatistic(),
-          team.getCoach()
-      );
-      return new ResponseEntity<>(teamOldDto, HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    Team teamOld;
+    try {
+      teamOld = teamService.getById(id);
+      if (teamOld != null) {
+        teamService.update(id, team);
+        TeamDto teamOldDto = new TeamDto(
+            team.getId(),
+            team.getName(),
+            team.getTeamStatistic(),
+            team.getCoach()
+        );
+        return new ResponseEntity<>(teamOldDto, HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
 
   @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
   public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
-    if (teamService.getById(id) != null) {
-      teamService.deleteById(id);
+    if (teamService.deleteById(id)) {
       return new ResponseEntity<>(HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 }

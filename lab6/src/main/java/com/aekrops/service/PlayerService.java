@@ -44,9 +44,12 @@ public class PlayerService implements AbstractService<Player, Integer> {
   }
 
   @Override
-  public void deleteById(Integer id) {
+  public Boolean deleteById(Integer id) {
     if (playerRepository.findById(id).isPresent()) {
       playerRepository.deleteById(id);
+      return true;
+    } else {
+      return false;
     }
   }
 }

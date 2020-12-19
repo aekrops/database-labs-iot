@@ -40,9 +40,12 @@ public class TeamService implements  AbstractService<Team, Integer> {
   }
 
   @Override
-  public void deleteById(Integer id) {
+  public Boolean deleteById(Integer id) {
     if (teamRepository.findById(id).isPresent()) {
       teamRepository.deleteById(id);
+      return true;
+    } else {
+      return false;
     }
   }
 }

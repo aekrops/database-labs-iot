@@ -38,15 +38,17 @@ public class CoachController {
 
   @RequestMapping(method = RequestMethod.GET, value = "/{id}")
   public ResponseEntity<CoachDto> getById(@PathVariable Integer id) {
-    Coach coach = coachService.getById(id);
-    if (coach != null) {
+    Coach coach;
+    try {
+      coach = coachService.getById(id);
+
       CoachDto coachDto = new CoachDto(
           coach.getId(),
           coach.getName(),
           coach.getAge()
       );
       return new ResponseEntity<>(coachDto, HttpStatus.OK);
-    } else {
+    } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
@@ -60,26 +62,32 @@ public class CoachController {
   @RequestMapping(method = RequestMethod.PUT, value = "/{id}",
       consumes = {MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<CoachDto> update(@PathVariable Integer id, @RequestBody Coach coach) {
-    Coach coachOld = coachService.getById(id);
-    if (coachOld != null) {
-      coachService.update(id, coach);
-      CoachDto coachOldDto = new CoachDto(
-          coachOld.getId(),
-          coachOld.getName(),
-          coachOld.getAge()
-      );
-      return new ResponseEntity<>(coachOldDto, HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    Coach coachOld;
+    try {
+      coachOld = coachService.getById(id);
+      if (coachOld != null) {
+        coachService.update(id, coach);
+        CoachDto coachOldDto = new CoachDto(
+            coachOld.getId(),
+            coachOld.getName(),
+            coachOld.getAge()
+        );
+        return new ResponseEntity<>(coachOldDto, HttpStatus.OK);
+
+      } else {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
 
   @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
   public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
-    if (coachService.getById(id) != null) {
-      coachService.deleteById(id);
+    if (coachService.deleteById(id)) {
       return new ResponseEntity<>(HttpStatus.OK);
+    } else{
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 }

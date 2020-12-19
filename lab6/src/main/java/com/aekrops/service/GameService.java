@@ -40,9 +40,12 @@ public class GameService implements  AbstractService<Game, Integer> {
   }
 
   @Override
-  public void deleteById(Integer id) {
+  public Boolean deleteById(Integer id) {
     if (gameRepository.findById(id).isPresent()) {
       gameRepository.deleteById(id);
+      return true;
+    } else {
+      return false;
     }
   }
 }

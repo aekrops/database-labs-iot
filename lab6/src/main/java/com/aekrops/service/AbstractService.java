@@ -12,6 +12,6 @@ public interface AbstractService<E, ID> {
 
   public E update(ID id, E object);
 
-  public void deleteById(ID id);
+  public Boolean deleteById(ID id);
 
 }

@@ -38,17 +38,20 @@ public class RefereeController {
 
   @RequestMapping(method = RequestMethod.GET, value = "/{id}")
   public ResponseEntity<RefereeDto> getById(@PathVariable Integer id) {
-    Referee referee = refereeService.getById(id);
-    if (referee != null) {
+    Referee referee;
+    try {
+      referee = refereeService.getById(id);
+
       RefereeDto refereeDto = new RefereeDto(
           referee.getId(),
           referee.getName(),
           referee.getAge()
       );
       return new ResponseEntity<>(refereeDto, HttpStatus.OK);
-    } else {
+    } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
   }
 
   @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -60,27 +63,32 @@ public class RefereeController {
   @RequestMapping(method = RequestMethod.PUT, value = "/{id}",
       consumes = {MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<RefereeDto> update(@PathVariable Integer id, @RequestBody Referee referee) {
-    Referee refereeOld = refereeService.getById(id);
-    if (refereeOld != null) {
-      refereeService.update(id, referee);
-      RefereeDto refereeOldDto = new RefereeDto(
-          referee.getId(),
-          referee.getName(),
-          referee.getAge()
-      );
-      return new ResponseEntity<>(refereeOldDto, HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    Referee refereeOld;
+    try {
+      refereeOld = refereeService.getById(id);
+      if (refereeOld != null) {
+        refereeService.update(id, referee);
+        RefereeDto refereeOldDto = new RefereeDto(
+            referee.getId(),
+            referee.getName(),
+            referee.getAge()
+        );
+        return new ResponseEntity<>(refereeOldDto, HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
 
   @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
   public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
-    if (refereeService.getById(id) != null) {
-      refereeService.deleteById(id);
+    if (refereeService.deleteById(id)) {
       return new ResponseEntity<>(HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 }
 

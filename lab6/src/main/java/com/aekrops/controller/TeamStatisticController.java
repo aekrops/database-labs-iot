@@ -17,7 +17,7 @@ public class TeamStatisticController {
 
   private final TeamStatisticService teamStatisticService;
 
-  public TeamStatisticController(TeamStatisticService teamStatisticService)  {
+  public TeamStatisticController(TeamStatisticService teamStatisticService) {
     this.teamStatisticService = teamStatisticService;
   }
 
@@ -38,15 +38,17 @@ public class TeamStatisticController {
 
   @RequestMapping(method = RequestMethod.GET, value = "/{id}")
   public ResponseEntity<TeamStatisticDto> getById(@PathVariable Integer id) {
-    TeamStatistic teamStatistic= teamStatisticService.getById(id);
-    if (teamStatistic != null) {
+    TeamStatistic teamStatistic;
+    try {
+      teamStatistic = teamStatisticService.getById(id);
+
       TeamStatisticDto teamStatisticDto = new TeamStatisticDto(
           teamStatistic.getId(),
           teamStatistic.getVictories(),
           teamStatistic.getPercentageHitsOnTarget()
       );
       return new ResponseEntity<>(teamStatisticDto, HttpStatus.OK);
-    } else {
+    } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
@@ -61,26 +63,32 @@ public class TeamStatisticController {
       consumes = {MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<TeamStatisticDto> update(@PathVariable Integer id,
                                                  @RequestBody TeamStatistic teamStatistic) {
-    TeamStatistic teamStatisticOld = teamStatisticService.getById(id);
-    if (teamStatisticOld != null) {
-      teamStatisticService.update(id, teamStatistic);
-      TeamStatisticDto teamStatisticOldDto = new TeamStatisticDto(
-          teamStatistic.getId(),
-          teamStatistic.getVictories(),
-          teamStatistic.getPercentageHitsOnTarget()
-      );
-      return new ResponseEntity<>(teamStatisticOldDto, HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    TeamStatistic teamStatisticOld;
+    try {
+      teamStatisticOld = teamStatisticService.getById(id);
+
+      if (teamStatisticOld != null) {
+        teamStatisticService.update(id, teamStatistic);
+        TeamStatisticDto teamStatisticOldDto = new TeamStatisticDto(
+            teamStatistic.getId(),
+            teamStatistic.getVictories(),
+            teamStatistic.getPercentageHitsOnTarget()
+        );
+        return new ResponseEntity<>(teamStatisticOldDto, HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
 
   @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
   public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
-    if (teamStatisticService.getById(id) != null) {
-      teamStatisticService.deleteById(id);
+    if (teamStatisticService.deleteById(id)) {
       return new ResponseEntity<>(HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 }

@@ -27,7 +27,7 @@ public class GameController {
     List<GameDto> gameDtos = new ArrayList<>();
     for (Game game : games) {
       GameDto gameDto = new GameDto(
-        game.getId(),
+          game.getId(),
           game.getSeason(),
           game.getGuestsTeam(),
           game.getHostsTeam(),
@@ -43,8 +43,10 @@ public class GameController {
 
   @RequestMapping(method = RequestMethod.GET, value = "/{id}")
   public ResponseEntity<GameDto> getById(@PathVariable Integer id) {
-    Game game = gameService.getById(id);
-    if (game != null) {
+    Game game;
+    try {
+      game = gameService.getById(id);
+
       GameDto gameDto = new GameDto(
           game.getId(),
           game.getSeason(),
@@ -56,9 +58,12 @@ public class GameController {
           game.getMatchDate()
       );
       return new ResponseEntity<>(gameDto, HttpStatus.OK);
-    } else {
+
+
+    } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
   }
 
   @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -70,31 +75,37 @@ public class GameController {
   @RequestMapping(method = RequestMethod.PUT, value = "/{id}",
       consumes = {MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<GameDto> update(@PathVariable Integer id, @RequestBody Game game) {
-    Game gameOld = gameService.getById(id);
-    if (gameOld != null) {
-      gameService.update(id, game);
-      GameDto gameOldDto = new GameDto(
-          game.getId(),
-          game.getSeason(),
-          game.getGuestsTeam(),
-          game.getHostsTeam(),
-          game.getTournament(),
-          game.getReferee(),
-          game.getStadium(),
-          game.getMatchDate()
-      );
-      return new ResponseEntity<>(gameOldDto, HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    Game gameOld;
+    try {
+      gameOld = gameService.getById(id);
+
+      if (gameOld != null) {
+        gameService.update(id, game);
+        GameDto gameOldDto = new GameDto(
+            game.getId(),
+            game.getSeason(),
+            game.getGuestsTeam(),
+            game.getHostsTeam(),
+            game.getTournament(),
+            game.getReferee(),
+            game.getStadium(),
+            game.getMatchDate()
+        );
+        return new ResponseEntity<>(gameOldDto, HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
 
   @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
   public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
-    if (gameService.getById(id) != null) {
-      gameService.deleteById(id);
+    if (gameService.deleteById(id)) {
       return new ResponseEntity<>(HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 }

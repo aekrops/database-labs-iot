@@ -40,9 +40,12 @@ public class StadiumService implements AbstractService<Stadium, Integer> {
   }
 
   @Override
-  public void deleteById(Integer id) {
+  public Boolean deleteById(Integer id) {
     if (stadiumRepository.findById(id).isPresent()) {
       stadiumRepository.deleteById(id);
+      return true;
+    } else {
+      return false;
     }
   }
 }

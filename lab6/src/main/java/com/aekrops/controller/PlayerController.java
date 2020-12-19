@@ -39,8 +39,10 @@ public class PlayerController {
 
   @RequestMapping(method = RequestMethod.GET, value = "/{id}")
   public ResponseEntity<PlayerDto> getById(@PathVariable Integer id) {
-    Player player = playerService.getById(id);
-    if (player != null) {
+    Player player;
+    try {
+      player = playerService.getById(id);
+
       PlayerDto playerDto = new PlayerDto(
           player.getId(),
           player.getTeam(),
@@ -48,7 +50,7 @@ public class PlayerController {
           player.getAge()
       );
       return new ResponseEntity<>(playerDto, HttpStatus.OK);
-    } else {
+    } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
@@ -62,27 +64,33 @@ public class PlayerController {
   @RequestMapping(method = RequestMethod.PUT, value = "/{id}",
       consumes = {MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<PlayerDto> update(@PathVariable Integer id, @RequestBody Player player) {
-    Player playerOld = playerService.getById(id);
-    if (playerOld != null) {
-      playerService.update(id, player);
-      PlayerDto playerOldDto = new PlayerDto(
-          player.getId(),
-          player.getTeam(),
-          player.getName(),
-          player.getAge()
-      );
-      return new ResponseEntity<>(playerOldDto, HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    Player playerOld;
+    try {
+      playerOld = playerService.getById(id);
+      if (playerOld != null) {
+        playerService.update(id, player);
+        PlayerDto playerOldDto = new PlayerDto(
+            player.getId(),
+            player.getTeam(),
+            player.getName(),
+            player.getAge()
+        );
+        return new ResponseEntity<>(playerOldDto, HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
   }
 
   @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
   public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
-    if (playerService.getById(id) != null) {
-      playerService.deleteById(id);
+    if (playerService.deleteById(id)) {
       return new ResponseEntity<>(HttpStatus.OK);
+    } else{
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 }

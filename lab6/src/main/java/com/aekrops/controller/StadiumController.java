@@ -39,8 +39,10 @@ public class StadiumController {
 
   @RequestMapping(method = RequestMethod.GET, value = "/{id}")
   public ResponseEntity<StadiumDto> getById(@PathVariable Integer id) {
-    Stadium stadium = stadiumService.getById(id);
-    if (stadium != null) {
+    Stadium stadium;
+    try {
+      stadium = stadiumService.getById(id);
+
       StadiumDto stadiumDto = new StadiumDto(
           stadium.getId(),
           stadium.getName(),
@@ -48,9 +50,10 @@ public class StadiumController {
           stadium.getCountry()
       );
       return new ResponseEntity<>(stadiumDto, HttpStatus.OK);
-    } else {
+    } catch (Exception e) {
       return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
+
   }
 
   @RequestMapping(method = RequestMethod.POST, consumes = {MediaType.APPLICATION_JSON_VALUE})
@@ -62,27 +65,32 @@ public class StadiumController {
   @RequestMapping(method = RequestMethod.PUT, value = "/{id}",
       consumes = {MediaType.APPLICATION_JSON_VALUE})
   public ResponseEntity<StadiumDto> update(@PathVariable Integer id, @RequestBody Stadium stadium) {
-    Stadium stadiumOld = stadiumService.getById(id);
-    if (stadiumOld != null) {
-      stadiumService.update(id, stadium);
-      StadiumDto stadiumOldDto = new StadiumDto(
-          stadium.getId(),
-          stadium.getName(),
-          stadium.getCity(),
-          stadium.getCountry()
-      );
-      return new ResponseEntity<>(stadiumOldDto, HttpStatus.OK);
-    } else {
-      return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+    Stadium stadiumOld;
+    try {
+      stadiumOld = stadiumService.getById(id);
+      if (stadiumOld != null) {
+        stadiumService.update(id, stadium);
+        StadiumDto stadiumOldDto = new StadiumDto(
+            stadium.getId(),
+            stadium.getName(),
+            stadium.getCity(),
+            stadium.getCountry()
+        );
+        return new ResponseEntity<>(stadiumOldDto, HttpStatus.OK);
+      } else {
+        return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+      }
+    } catch (Exception e) {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
   }
 
   @RequestMapping(method = RequestMethod.DELETE, value = "/{id}")
   public ResponseEntity<Void> deleteById(@PathVariable Integer id) {
-    if (stadiumService.getById(id) != null) {
-      stadiumService.deleteById(id);
+    if (stadiumService.deleteById(id)) {
       return new ResponseEntity<>(HttpStatus.OK);
+    } else {
+      return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
-    return new ResponseEntity<>(HttpStatus.NOT_FOUND);
   }
 }
