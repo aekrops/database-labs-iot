@@ -4,14 +4,14 @@ import java.util.List;
 
 public interface AbstractService<E, ID> {
 
-  public List<E> getAll();
+  List<E> getAll();
 
-  public E getById(ID id);
+  E getById(ID id);
 
-  public E create(E newObject);
+  E create(E newObject);
 
-  public E update(ID id, E object);
+  E update(ID id, E object);
 
-  public Boolean deleteById(ID id);
+  Boolean deleteById(ID id);
 
 }
